@@ -15,9 +15,14 @@ class SelfDrive:
         turtle_vel = Twist()
          # 전진 속도 및 회전 속도 지정
         turtle_vel.angular.z = 0.0
+<<<<<<< HEAD
         if scan.ranges[0] == 0.0:
             turtle_vel.linear.x = 0.15
         elif scan.ranges[0] < 0.25:
+=======
+         # 장애물 발견시 정지
+        if scan.ranges[0] < 0.25:
+>>>>>>> 816367f0658ef20339582b7790714c113085d7db
             turtle_vel.linear.x = 0
         else:
             turtle_vel.linear.x = 0.15
