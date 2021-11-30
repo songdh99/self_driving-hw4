@@ -19,6 +19,7 @@ class SelfDrive:
         if scan.ranges[0] == 0.0:
             turtle_vel.linear.x = 0.15
         elif scan.ranges[0] < 0.25:
+            turtle_vel.linear.x = 0
         else:
             turtle_vel.linear.x = 0.15
          # 속도 출력
