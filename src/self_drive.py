@@ -16,15 +16,18 @@ class SelfDrive:
         front, front_left, front_right, left_side, right_side = self.init_ranges(scan.ranges)
         if ((right_side * 2) / math.sqrt(3)) - 3 <= front_right <= ((right_side * 2) / math.sqrt(3)) + 3 and 23 < right_side < 27:
             print("Go straight mode")
-            if ((right_side * 2) / math.sqrt(3)) - 3 < front_right and 23 < right_side:
-                print("go around right")
-            elif (front_right <= (right_side * 2)/ math.sqrt(3)) and right_side < 27:
-                print("go around left")
+
         else:
             print('front_right minimum', np.round((((right_side * 2) / math.sqrt(3)) - 3), 2))
             print('front_right maximum', np.round((((right_side * 2) / math.sqrt(3)) + 3), 2))
             print('right_side minimum', right_side)
             print("Find walls")
+        if ((right_side * 2) / math.sqrt(3)) - 3 < front_right and 23 < right_side <27:
+            print("go around right")
+        elif (front_right < (right_side * 2)/ math.sqrt(3)) + 3 and 23< right_side < 27:
+            print("go around left")
+        else:
+            print("find straight")
 
         # if left <= 0.25:
         #     turtle_vel.linear.x = 0.15
