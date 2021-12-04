@@ -11,18 +11,37 @@ class SelfDrive:
     def __init__(self, publisher):
         self.publisher = publisher
 
+    state_ = 0
+    state_dict_ = {
+        0: 'find the wall',
+        1: 'turn left',
+        2: 'turn right',
+        3: 'follow the wall',
+    }
+    def init_ranges(self, scanned):
+        right_side = scanned[-90] * 100
+        left_side = scanned[90] * 100
+        front = scanned[0] * 100
+        front_right = scanned[-60] * 100
+        behind_right = scanned[-120] * 100
+        front_left = scanned[60] * 100
+        hyp = right_side / math.cos(math.pi*(30/180))
+
+        return np.round(front,2), np.round(front_left,2), np.round(front_right,2), np.round(left_side,2), np.round(right_side,2), hyp
+
+
+    
+    def act_ros(self):
+        front, front_left, front_right, left_side, right_side, hyp = self.init_ranges(scan.ranges)
 
     def lds_callback(self, scan):
-        front, front_left, front_right, left_side, right_side, hyp2 = self.init_ranges(scan.ranges)
-        if hyp2 - 3 <= front_right <= hyp2 + 3 and 23 <= right_side <= 27:
+        front, front_left, front_right, left_side, right_side, hyp = self.init_ranges(scan.ranges)
+        if hyp - 3 <= front_right <= hyp + 3 and 23 <= right_side <= 27:
             print("Go straight mode")
-            if right_side >= 25:
+            if right_side >= 25 and front_right >= hyp:
                 print("go around right")
-            elif right_side <= 25:
+            elif right_side < 25 and front_right <= hyp:
                 print("go around left")
-            else:
-                print("find walls")
-
         else:
             print('front_right minimum', np.round(((hyp2) - 3), 2))
             print('front_right maximum', np.round(((hyp2) + 3), 2))
@@ -51,17 +70,6 @@ class SelfDrive:
         #  # 속도 출력
         # self.publisher.publish(turtle_vel)
 
-    def init_ranges(self, scanned):
-        right_side = scanned[-90] * 100
-        left_side = scanned[90] * 100
-        front = scanned[0] * 100
-        front_right = scanned[-60] * 100
-        behind_right = scanned[-120] * 100
-        front_left = scanned[60] * 100
-        hyp = (right_side * 2) / math.sqrt(3)
-        hyp2 = right_side / math.cos(30)
-
-        return np.round(front,2), np.round(front_left,2), np.round(front_right,2), np.round(left_side,2), np.round(right_side,2), hyp
 
 
 def main():
