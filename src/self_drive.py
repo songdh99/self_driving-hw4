@@ -8,16 +8,27 @@ import math
 
 
 class SelfDrive:
+    # def change_state(self):
+    #     global state_, state_dict_
+    #     if self is not state_:
+    #         print
+    #         'Wall follower - [%s] - %s' % (self, state_dict_[self])
+    #         state_ = self
+
     def __init__(self, publisher):
         self.publisher = publisher
+    # state_ = 0
+    # state_dict_ = {
+    #     0: 'find the wall',
+    #     1: 'turn left',
+    #     2: 'turn right',
+    #     4: 'semi turn left',
+    #     5: 'semi turn right',
+    #
+    # }
 
-    state_ = 0
-    state_dict_ = {
-        0: 'find the wall',
-        1: 'turn left',
-        2: 'turn right',
-        3: 'follow the wall',
-    }
+
+
     def init_ranges(self, scanned):
         right_side = scanned[-90] * 100
         left_side = scanned[90] * 100
@@ -29,10 +40,53 @@ class SelfDrive:
 
         return np.round(front,2), np.round(front_left,2), np.round(front_right,2), np.round(left_side,2), np.round(right_side,2), hyp
 
-
-    
     def act_ros(self):
+        global turtle_vel
+        turtle_vel = Twist()
         front, front_left, front_right, left_side, right_side, hyp = self.init_ranges(scan.ranges)
+        if 25 < front < 50:
+            if front_left < hyp and left_side < 25:
+                self.semi_turn_left()
+            elif front_left > hyp and left_side < 25:
+                self.semi_turn_left()
+            elif front_left < hyp and left_side > 25:
+                self.semi_turn_right()
+            elif front_left > hyp and left_side > 25:
+                self.semi_turn_right()
+        elif 0 <= front <= 25 and hyp-1 < front_left < hyp+1 and 26<left_side<27:
+            self.turn_left()
+        elif 50 <= front <= 100 and 50 <=front_left <= 100 and 50 <= left_side <= 100:
+            self.find_wall()
+
+
+
+    def turn_left(self):
+        turtle_vel = Twist()
+        turtle_vel.linear.x = 0.05
+        turtle_vel.angular.z = 0.3
+        return turtle_vel
+    def semi_turn_left(self):
+        turtle_vel = Twist()
+        turtle_vel.linear.x = 0.15
+        turtle_vel.angular.z = 0.01
+        return turtle_vel
+    def semi_turn_right(self):
+        turtle_vel = Twist()
+        turtle_vel.linear.x = 0.15
+        turtle_vel.angular.z = -0.01
+        return turtle_vel
+    def find_wall(self):
+        turtle_vel =Twist()
+        turtle_vel.linear.x = 0.15
+        turtle_vel.angular.z = -0.03
+        return turtle_vel
+
+
+
+
+
+
+
 
     def lds_callback(self, scan):
         front, front_left, front_right, left_side, right_side, hyp = self.init_ranges(scan.ranges)
