@@ -46,39 +46,39 @@ class SelfDrive:
         #     else:
         #         print("find the wall")
 
-
-        if front < 0.25 :
-            self.Turn_Right()
-            print("turn right")
-
-
-        elif left > 0.25 or fleft > bleft:
-            self.Semi_Left()
-            print("lil turn left", self.Semi_Left())
-
-        elif left < 0.25 or fleft < bleft:
-             self.Semi_Right()
-             print("lil turn right", self.Semi_Right())
-
-        else:
-             self.find_wall()
-             print("no left wall")
+        if right <1.5:
+            if front < 0.25 :
+                self.Turn_Right()
+                print("turn right")
 
 
-        if left > 0.25 and fleft > bleft:
-            self.Semi_Left()
-            print("semi turn")
+            elif left > 0.25 or fleft > bleft:
+                self.Semi_Left()
+                print("lil turn left", self.Semi_Left())
 
-        elif left < 0.25 or fleft < bleft:
-            self.Semi_Right()
-            print("semi right")
+            elif left < 0.25 or fleft < bleft:
+                 self.Semi_Right()
+                 print("lil turn right", self.Semi_Right())
 
-        elif fleft > 0.5 or fleft == 0:
-            self.Turn_Left()
-            print("turn left")
+            else:
+                 self.find_wall()
+                 print("no left wall")
 
-        else:
-            self.find_wall()
+        elif right > 1:
+            if fleft > 0.5 or fleft == 0:
+                self.Turn_Left()
+                print("turn left")
+
+            elif left < 0.25 or fleft < bleft:
+                self.Semi_Right()
+                print("semi right")
+
+            elif left > 0.25 and fleft > bleft:
+                self.Semi_Left()
+                print("semi turn")
+
+            else:
+                self.find_wall()
 
         # elif direct == -1:  #오른쪽 벽
         #
