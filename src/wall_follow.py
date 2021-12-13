@@ -31,13 +31,20 @@ class SelfDrive:
     def lds_callback(self, scan):
         right, fright, front, fleft, left, bleft, bright, point, point2, point3 = self.init_ranges(scan.ranges)
         print(point, point2)
+        if point3 > 0.5 and front > 0.3:
+            self.turtle_vel.linear.x = 0.15
+            self.turtle_vel.angular.z = 0
 
-        if point2 > 0.45 or point2 == 0 or point-point3 > 0.07:
-            self.Turn_Left()
-            print("outside turn left")
         elif 0 < front < 0.30:
             self.Turn_Right()
             print("turn right")
+
+
+        elif point2 > 0.45 or point2 == 0 or point-point3 > 0.07:
+            self.Turn_Left()
+            print("outside turn left")
+
+
 
         # elif left > 0.25:
         #     if fleft > bleft:
