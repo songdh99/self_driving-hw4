@@ -30,6 +30,9 @@ class SelfDrive:
         right, fright, front, fleft, left, bleft, bright = self.init_ranges(scan.ranges)
         print(right, fright, front, fleft, left)
         direct = 0
+        self.turtle_vel.linear.x = 0.15
+        self.turtle_vel.angular.z = 2
+
         # if front > 3 and left > 3 and right > 3:
         #     self.find_wall()
         #     print("find wall")
@@ -46,23 +49,23 @@ class SelfDrive:
         #     else:
         #         print("find the wall")
 
-        if direct == 0:  # 왼쪽 벽
-
-            if left > 0.25 and front > 0.25 or fleft > bleft:
-                self.Semi_Left()
-                print("lil turn left", self.Semi_Left())
-
-            elif left < 0.25 and front > 0.25 or fleft < bleft:
-                self.Semi_Right()
-                print("lil turn right", self.Semi_Right())
-
-            elif front < 0.25:
-                self.Turn_Right()
-                print("turn left")
-            else:
-                print("no left wall")
-
-        # elif direct == -1:  #오른쪽 벽
+        # if direct == 0:  # 왼쪽 벽
+        #
+        #     if left > 0.25 and front > 0.25 or fleft > bleft:
+        #         self.Semi_Left()
+        #         print("lil turn left", self.Semi_Left())
+        #
+        #     elif left < 0.25 and front > 0.25 or fleft < bleft:
+        #         self.Semi_Right()
+        #         print("lil turn right", self.Semi_Right())
+        #
+        #     elif front < 0.25:
+        #         self.Turn_Right()
+        #         print("turn left")
+        #     else:
+        #         print("no left wall")
+        #
+        # # elif direct == -1:  #오른쪽 벽
         #
         #     if right > 0.25 and front > 0.25:
         #         self.Semi_Left()
